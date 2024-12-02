@@ -24,6 +24,15 @@ manual_data = [
 # Convert manual data to GeoDataFrame
 gdf = gpd.GeoDataFrame(manual_data, geometry=gpd.points_from_xy([d['longitude'] for d in manual_data], [d['latitude'] for d in manual_data]))
 
+# Define icons for different types of buildings
+def get_icon(building_type):
+    if building_type == "корпус":
+        return "university"
+    elif building_type == "здание":
+        return "home"
+    else:
+        return "info-sign"
+
 # Step 3: Visualize Map
 campus_map = folium.Map(location=[gdf.geometry.y.mean(), gdf.geometry.x.mean()], zoom_start=15, tiles='OpenStreetMap')
 
@@ -31,7 +40,8 @@ for _, row in gdf.iterrows():
     folium.Marker(
         location=[row.geometry.y, row.geometry.x],
         popup=folium.Popup(f"<b>{row['name']}</b><br>Type: {row['type']}", max_width=250),
-        tooltip=row['name']
+        tooltip=row['name'],
+        icon=folium.Icon(icon=get_icon(row['type']), color="blue")
     ).add_to(campus_map)
 
 # Render map in Streamlit
