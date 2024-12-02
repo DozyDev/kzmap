@@ -8,16 +8,6 @@ st.set_page_config(page_title="Интерактивная карта Казаи�
 st.title("Интерактивная карта университета Казаиту")
 st.markdown("Это карта отображает корпуса университета Казаиту.")
 
-import geopandas as gpd
-import folium
-import streamlit as st
-from streamlit_folium import st_folium
-
-# Streamlit app setup
-st.set_page_config(page_title="University Campus Map", layout="wide")
-st.title("Interactive Campus Map")
-st.markdown("This interactive map displays university buildings and key locations.")
-
 # Manual data for campus locations
 manual_data = [
     {"name": "Главный корпус", "type": "корпус", "latitude": 51.186920 , "longitude": 71.409717},
