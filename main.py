@@ -8,6 +8,16 @@ st.set_page_config(page_title="Интерактивная карта Казаи�
 st.title("Интерактивная карта университета Казаиту")
 st.markdown("Это карта отображает корпуса университета Казаиту.")
 
+import geopandas as gpd
+import folium
+import streamlit as st
+from streamlit_folium import st_folium
+
+# Streamlit app setup
+st.set_page_config(page_title="University Campus Map", layout="wide")
+st.title("Interactive Campus Map")
+st.markdown("This interactive map displays university buildings and key locations.")
+
 # Manual data for campus locations
 manual_data = [
     {"name": "Главный корпус", "type": "корпус", "latitude": 51.186920 , "longitude": 71.409717},
@@ -38,8 +48,16 @@ st.sidebar.header("Search Options")
 search_query = st.sidebar.text_input("Search for a Campus Location")
 filtered_gdf = gdf[gdf['name'].str.contains(search_query, case=False)] if search_query else gdf
 
+# Determine map center and zoom level based on search
+if not filtered_gdf.empty and search_query:
+    map_center = [filtered_gdf.geometry.y.mean(), filtered_gdf.geometry.x.mean()]
+    zoom_level = 17
+else:
+    map_center = [gdf.geometry.y.mean(), gdf.geometry.x.mean()]
+    zoom_level = 15
+
 # Step 3: Visualize Map
-campus_map = folium.Map(location=[gdf.geometry.y.mean(), gdf.geometry.x.mean()], zoom_start=15, tiles='OpenStreetMap')
+campus_map = folium.Map(location=map_center, zoom_start=zoom_level, tiles='OpenStreetMap')
 
 for _, row in filtered_gdf.iterrows():
     folium.Marker(
