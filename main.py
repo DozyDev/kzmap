@@ -5,8 +5,8 @@ from streamlit_folium import st_folium
 
 # Streamlit app setup
 st.set_page_config(page_title="Интерактивная карта Казаиту", layout="wide")
-st.title("Интерактивная карта Казаиту")
-st.markdown("Это карта отображает корпуса университета Казаиту")
+st.title("Интерактивная карта университета Казаиту")
+st.markdown("Это карта отображает корпуса университета Казаиту.")
 
 # Manual data for campus locations
 manual_data = [
@@ -33,10 +33,15 @@ def get_icon(building_type):
     else:
         return "info-sign"
 
+# Sidebar search for campus
+st.sidebar.header("Search Options")
+search_query = st.sidebar.text_input("Search for a Campus Location")
+filtered_gdf = gdf[gdf['name'].str.contains(search_query, case=False)] if search_query else gdf
+
 # Step 3: Visualize Map
 campus_map = folium.Map(location=[gdf.geometry.y.mean(), gdf.geometry.x.mean()], zoom_start=15, tiles='OpenStreetMap')
 
-for _, row in gdf.iterrows():
+for _, row in filtered_gdf.iterrows():
     folium.Marker(
         location=[row.geometry.y, row.geometry.x],
         popup=folium.Popup(f"<b>{row['name']}</b><br>Type: {row['type']}", max_width=250),
@@ -45,14 +50,14 @@ for _, row in gdf.iterrows():
     ).add_to(campus_map)
 
 # Render map in Streamlit
-st_folium(campus_map, width=1700, height=700)
+st_folium(campus_map, width=700, height=500)
 
 # Optional Step: Interactivity
 st.sidebar.header("Map Options")
 building_filter = st.sidebar.text_input("Filter by Building Name")
 if building_filter:
-    filtered_gdf = gdf[gdf['name'].str.contains(building_filter, case=False)]
-    st.write("Filtered Results:", filtered_gdf[['name', 'type']])
+    filtered_gdf_by_name = gdf[gdf['name'].str.contains(building_filter, case=False)]
+    st.write("Filtered Results:", filtered_gdf_by_name[['name', 'type']])
 else:
     st.write("Displaying all locations.")
 
