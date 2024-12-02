@@ -45,7 +45,7 @@ for _, row in gdf.iterrows():
     ).add_to(campus_map)
 
 # Render map in Streamlit
-st_folium(campus_map, width=1700, height=1500)
+st_folium(campus_map, width=1700, height=700)
 
 # Optional Step: Interactivity
 st.sidebar.header("Map Options")
