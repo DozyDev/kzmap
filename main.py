@@ -58,7 +58,7 @@ for _, row in filtered_gdf.iterrows():
     ).add_to(campus_map)
 
 # Render map in Streamlit
-st_folium(campus_map, width=700, height=500)
+st_folium(campus_map, width=1700, height=500)
 
 # Optional Step: Interactivity
 st.sidebar.header("Map Options")
