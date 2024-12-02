@@ -41,7 +41,7 @@ filtered_gdf = gdf[gdf['name'].str.contains(search_query, case=False)] if search
 # Determine map center and zoom level based on search
 if not filtered_gdf.empty and search_query:
     map_center = [filtered_gdf.geometry.y.mean(), filtered_gdf.geometry.x.mean()]
-    zoom_level = 20
+    zoom_level = 19
 else:
     map_center = [gdf.geometry.y.mean(), gdf.geometry.x.mean()]
     zoom_level = 15
