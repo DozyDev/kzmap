@@ -2,6 +2,7 @@ import geopandas as gpd
 import folium
 import streamlit as st
 from streamlit_folium import st_folium
+
 # Streamlit app setup
 st.set_page_config(page_title="University Campus Map", layout="wide")
 st.title("Interactive Campus Map")
@@ -34,8 +35,7 @@ for _, row in gdf.iterrows():
     ).add_to(campus_map)
 
 # Render map in Streamlit
-folium_static = st._global_imports._import_folium_static
-folium_static(campus_map)
+st_folium(campus_map, width=700, height=500)
 
 # Optional Step: Interactivity
 st.sidebar.header("Map Options")
@@ -53,9 +53,9 @@ st.markdown("""
     - Geopandas for geospatial data processing
     - Folium for interactive map rendering
     - Streamlit for web-based visualization
+    - Streamlit-Folium for Folium map integration
 - **Manual Data Provided:** Key buildings and points of interest on campus
 - **Instructions:**
     1. Explore the interactive map.
     2. Use the sidebar to filter or search for specific buildings.
 """)
-st_data = st_folium(campus_map, width=700, height=500)
