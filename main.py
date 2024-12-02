@@ -5,8 +5,8 @@ from streamlit_folium import st_folium
 
 # Streamlit app setup
 st.set_page_config(page_title="Интерактивная карта Казаиту", layout="wide")
-st.title("Interactive Campus Map")
-st.markdown("This interactive map displays university buildings and key locations.")
+st.title("Интерактивная карта Казаиту")
+st.markdown("Это карта отображает корпуса университета Казаиту")
 
 # Manual data for campus locations
 manual_data = [
